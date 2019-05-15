@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-05-04T19:24:26.839Z</updated>
+  <updated>2019-05-15T17:50:48.729Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>实验(1)  数据库与表</title>
-    <link href="http://yoursite.com/2019/05/04/%E5%AE%9E%E9%AA%8C-1-%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E8%A1%A8/"/>
-    <id>http://yoursite.com/2019/05/04/实验-1-数据库与表/</id>
-    <published>2019-05-03T19:17:40.000Z</published>
-    <updated>2019-05-04T19:24:26.839Z</updated>
+    <title>实验二：数据库的查询和视图与T-SQL编程（一）</title>
+    <link href="http://yoursite.com/2019/05/16/%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%9F%A5%E8%AF%A2%E5%92%8C%E8%A7%86%E5%9B%BE%E4%B8%8ET-SQL%E7%BC%96%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>http://yoursite.com/2019/05/16/实验二：数据库的查询和视图与T-SQL编程（一）/</id>
+    <published>2019-05-15T16:49:35.000Z</published>
+    <updated>2019-05-15T17:50:48.729Z</updated>
     
     <summary type="html">
     
@@ -36,7 +36,27 @@
     </summary>
     
     
-      <category term="SQL" scheme="http://yoursite.com/tags/SQL/"/>
+  </entry>
+  
+  <entry>
+    <title>实验一：数据库与表</title>
+    <link href="http://yoursite.com/2019/05/04/%E5%AE%9E%E9%AA%8C%E4%B8%80/"/>
+    <id>http://yoursite.com/2019/05/04/实验一/</id>
+    <published>2019-05-03T17:06:36.000Z</published>
+    <updated>2019-05-15T18:07:59.683Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
     
   </entry>
   

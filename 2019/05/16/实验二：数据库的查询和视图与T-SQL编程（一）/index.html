@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="VRIUSC LAB" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="实验目的：1.掌握SELECT语言、视图和游标的使用 2.掌握基本T-SQL与语言，SQL SERVER提供的主要系统函数，以及用户函数的定义和调用方法。 (1)练习单表的查询方法1234--4.1USE xsbookSELECT 姓名,专业,借书量	FROM xs 1234--4.3USE xsbookSELECT *	FROM xs 1234--4.4SELECT 借书证号 AS cardno">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实验二：数据库的查询和视图与T-SQL编程（一）">
+<meta property="og:url" content="http://yoursite.com/2019/05/16/实验二：数据库的查询和视图与T-SQL编程（一）/index.html">
+<meta property="og:site_name" content="VRIUSC LAB">
+<meta property="og:description" content="实验目的：1.掌握SELECT语言、视图和游标的使用 2.掌握基本T-SQL与语言，SQL SERVER提供的主要系统函数，以及用户函数的定义和调用方法。 (1)练习单表的查询方法1234--4.1USE xsbookSELECT 姓名,专业,借书量	FROM xs 1234--4.3USE xsbookSELECT *	FROM xs 1234--4.4SELECT 借书证号 AS cardno">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-15T17:50:48.729Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实验二：数据库的查询和视图与T-SQL编程（一）">
+<meta name="twitter:description" content="实验目的：1.掌握SELECT语言、视图和游标的使用 2.掌握基本T-SQL与语言，SQL SERVER提供的主要系统函数，以及用户函数的定义和调用方法。 (1)练习单表的查询方法1234--4.1USE xsbookSELECT 姓名,专业,借书量	FROM xs 1234--4.3USE xsbookSELECT *	FROM xs 1234--4.4SELECT 借书证号 AS cardno">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/16/实验二：数据库的查询和视图与T-SQL编程（一）/">
+
+
+
+
+
+  <title>实验二：数据库的查询和视图与T-SQL编程（一） | VRIUSC LAB</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">VRIUSC LAB</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Write the Code. Change the World.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/16/实验二：数据库的查询和视图与T-SQL编程（一）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="qianyongru">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VRIUSC LAB">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">实验二：数据库的查询和视图与T-SQL编程（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-16T00:49:35+08:00">
+                2019-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="实验目的："><a href="#实验目的：" class="headerlink" title="实验目的："></a>实验目的：</h2><p>1.掌握SELECT语言、视图和游标的使用</p>
+<p>2.掌握基本T-SQL与语言，SQL SERVER提供的主要系统函数，以及用户函数的定义和调用方法。</p>
+<h3 id="1-练习单表的查询方法"><a href="#1-练习单表的查询方法" class="headerlink" title="(1)练习单表的查询方法"></a>(1)练习单表的查询方法</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.1</span></span><br><span class="line"><span class="keyword">USE</span> xsbook</span><br><span class="line"><span class="keyword">SELECT</span> 姓名,专业,借书量</span><br><span class="line">	<span class="keyword">FROM</span> xs</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.3</span></span><br><span class="line"><span class="keyword">USE</span> xsbook</span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line">	<span class="keyword">FROM</span> xs</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.4</span></span><br><span class="line"><span class="keyword">SELECT</span> 借书证号 <span class="keyword">AS</span> cardno,姓名 <span class="keyword">AS</span> <span class="keyword">name</span>,借书量 <span class="keyword">AS</span> cnt</span><br><span class="line"><span class="keyword">FROM</span> xs</span><br><span class="line"><span class="keyword">WHERE</span> 专业=<span class="string">'软件工程'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.4</span></span><br><span class="line"><span class="keyword">SELECT</span> cardno=借书证号,<span class="keyword">name</span>=姓名,cnt=借书量</span><br><span class="line"><span class="keyword">FROM</span> xs</span><br><span class="line"><span class="keyword">WHERE</span> 专业=<span class="string">'软件工程'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.4</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">'card no'</span>=借书证号,姓名 <span class="keyword">AS</span> <span class="string">'Student name'</span>,cnt=借书量<span class="comment">--当列标题中含有空格时，必须使用引号将标题括起的。</span></span><br><span class="line"><span class="keyword">FROM</span> xs</span><br><span class="line"><span class="keyword">WHERE</span> 专业=<span class="string">'软件工程'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.6</span></span><br><span class="line"><span class="keyword">SELECT</span> 书名, 库存图书价值=库存量*价格</span><br><span class="line"><span class="keyword">FROM</span> book</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.6</span></span><br><span class="line"><span class="keyword">SELECT</span> 书名,价格*<span class="number">0.8</span> <span class="keyword">AS</span> 折扣价 <span class="keyword">FROM</span> book</span><br></pre></td></tr></table></figure>
+<h3 id="（2）查询条件的设计"><a href="#（2）查询条件的设计" class="headerlink" title="（2）查询条件的设计"></a>（2）查询条件的设计</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.8</span></span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span>　xs</span><br><span class="line"><span class="keyword">WHERE</span> 借书量!&lt;<span class="number">3</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.9</span></span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span>　xs</span><br><span class="line"><span class="keyword">WHERE</span> 专业=<span class="string">'软件工程'</span><span class="keyword">and</span> 借书量&gt;=<span class="number">3</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.12</span></span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span>　xs</span><br><span class="line"><span class="keyword">WHERE</span> 专业 <span class="keyword">IN</span>(<span class="string">'计算机'</span>,<span class="string">'软件工程'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.17</span></span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> xs</span><br><span class="line"><span class="keyword">WHERE</span> 专业 <span class="keyword">IS</span> <span class="literal">NULL</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-查询结果排序的方法"><a href="#3-查询结果排序的方法" class="headerlink" title="(3)查询结果排序的方法"></a>(3)查询结果排序的方法</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.20</span></span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> xs</span><br><span class="line"><span class="keyword">WHERE</span> 专业=<span class="string">'计算机'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> 出生日期</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.21</span></span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> xs</span><br><span class="line"><span class="keyword">WHERE</span> 专业=<span class="string">'计算机'</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> 出生日期 <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-练习聚合函数的使用"><a href="#4-练习聚合函数的使用" class="headerlink" title="(4)练习聚合函数的使用"></a>(4)练习聚合函数的使用</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.22</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">AVG</span>(借书量)<span class="keyword">AS</span> <span class="string">'平局借书量'</span></span><br><span class="line"><span class="keyword">FROM</span> xs</span><br><span class="line"><span class="keyword">WHERE</span> 专业=<span class="string">'计算机'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.25</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(*)<span class="keyword">AS</span><span class="string">'学生总数'</span></span><br><span class="line"><span class="keyword">FROM</span> xs</span><br></pre></td></tr></table></figure>
+<h3 id="5-练习多表查询的方法"><a href="#5-练习多表查询的方法" class="headerlink" title="(5)练习多表查询的方法"></a>(5)练习多表查询的方法</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.36</span></span><br><span class="line"><span class="keyword">SELECT</span> xs. *,jy.*</span><br><span class="line"><span class="keyword">FROM</span> xs,jy</span><br><span class="line"><span class="keyword">WHERE</span> xs.借书证号=jy.借书证号</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.37</span></span><br><span class="line"><span class="keyword">SELECT</span> xs. *,jy.ISBN,jy.索书号,jy.借书时间</span><br><span class="line"><span class="keyword">FROM</span> xs,jy</span><br><span class="line"><span class="keyword">WHERE</span> xs.借书证号=jy.借书证号</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.38</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> 姓名,专业</span><br><span class="line"><span class="keyword">FROM</span> xs,jy</span><br><span class="line"><span class="keyword">WHERE</span> XS.借书证号=jy.借书证号 <span class="keyword">AND</span> jy.ISBN=<span class="string">'098765432112345678'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.40</span></span><br><span class="line"><span class="keyword">SELECT</span> a.借书证号,b.姓名,a.ISBN,c.ISBN,c.书名,a.索书号,a.借书时间</span><br><span class="line"><span class="keyword">FROM</span> jy a,xs b,book c</span><br><span class="line"><span class="keyword">WHERE</span> a.借书证号=b.借书证号 <span class="keyword">and</span> a.ISBN=c.ISBN</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> a.借书证号</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.43</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> xs.借书证号,姓名,专业,借书时间</span><br><span class="line"><span class="keyword">FROM</span> xs <span class="keyword">JOIN</span> jy <span class="keyword">JOIN</span> book <span class="keyword">ON</span> jy.ISBN=book.ISBN</span><br><span class="line"><span class="keyword">ON</span> xs.借书证号=jy.借书证号</span><br><span class="line"><span class="keyword">WHERE</span> 书名=<span class="string">'SQL从入门到放弃'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.48</span></span><br><span class="line">SELECTSELECT a.借书证号,姓名,专业,b.ISBN,书名,索书号,借书时间</span><br><span class="line">FROM xs a,book b,jy c</span><br><span class="line">WHERE 书名 LIKE '%SQL%' AND b.ISBN=c.ISBN AND a.借书证号=c.借书证号</span><br><span class="line">ORDER BY a.借书证号</span><br></pre></td></tr></table></figure>
+<h3 id="6-练习嵌套查询的方法"><a href="#6-练习嵌套查询的方法" class="headerlink" title="(6)练习嵌套查询的方法"></a>(6)练习嵌套查询的方法</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.50</span></span><br><span class="line"><span class="keyword">SELECT</span> 借书证号,姓名,性别,出生日期,专业,借书量</span><br><span class="line"><span class="keyword">FROM</span> xs</span><br><span class="line"><span class="keyword">WHERE</span> 借书证号 <span class="keyword">NOT</span> <span class="keyword">IN</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span> 借书证号</span><br><span class="line"><span class="keyword">FROM</span> jy</span><br><span class="line"><span class="keyword">WHERE</span> ISBN <span class="keyword">IN</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span> ISBN</span><br><span class="line"><span class="keyword">FROM</span> book</span><br><span class="line"><span class="keyword">WHERE</span> 书名=<span class="string">'SQL从入门到放弃'</span></span><br><span class="line">)</span><br><span class="line">)</span><br><span class="line"><span class="comment">--在book表中找到书名为《SQL从入门到放弃》的ISBN号，然后在jy表中找到借阅了ISBN号相同的书的学生借书证号</span></span><br><span class="line"><span class="comment">--在xs表中取出借书证号不在集合里的学生信息，作为结果表。</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.51</span></span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> xs</span><br><span class="line"><span class="keyword">WHERE</span> 专业&lt;&gt; <span class="string">'计算机'</span> <span class="keyword">AND</span> 出生日期&gt;<span class="keyword">ALL</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span>  出生日期</span><br><span class="line"><span class="keyword">FROM</span> xs</span><br><span class="line"><span class="keyword">WHERE</span> 专业=<span class="string">'计算机'</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="7-练习创建视图的方法"><a href="#7-练习创建视图的方法" class="headerlink" title="(7)练习创建视图的方法"></a>(7)练习创建视图的方法</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.65</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> cs_y</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> xs.借书证号,索书号,借书时间</span><br><span class="line"><span class="keyword">FROM</span> xs,jy</span><br><span class="line"><span class="keyword">WHERE</span> xs.借书证号=jy.借书证号 <span class="keyword">AND</span> 专业=<span class="string">'计算机'</span></span><br><span class="line"><span class="keyword">WITH</span> <span class="keyword">CHECK</span> <span class="keyword">OPTION</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.67</span></span><br><span class="line"><span class="keyword">CREATE</span>　<span class="keyword">VIEW</span>　LENDNUM(ISBN,<span class="keyword">num</span>)</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> ISBN,复本量-库存量</span><br><span class="line"><span class="keyword">FROM</span> book</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.68</span></span><br><span class="line"><span class="keyword">CREATE</span>　<span class="keyword">VIEW</span> TOTPRICE(借书证号,PRICE)</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> jy.借书证号,<span class="keyword">SUM</span>(价格)</span><br><span class="line"><span class="keyword">FROM</span> xs,jy,book</span><br><span class="line"><span class="keyword">WHERE</span> xs.借书证号=jy.借书证号 <span class="keyword">AND</span> jy.ISBN=book.ISBN</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> jy.借书证号</span><br></pre></td></tr></table></figure>
+<h3 id="8-练习查询视图的方法"><a href="#8-练习查询视图的方法" class="headerlink" title="(8)练习查询视图的方法"></a>(8)练习查询视图的方法</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.71</span></span><br><span class="line"><span class="keyword">SELECT</span> 借书证号,索书号</span><br><span class="line"><span class="keyword">FROM</span> cs_jy_820</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.72</span></span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> LENDNUM</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NUM</span>&gt;<span class="number">3</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.73</span></span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> TOTPRICE</span><br><span class="line"><span class="keyword">WHERE</span> PRICE&gt;<span class="number">900</span></span><br></pre></td></tr></table></figure>
+<h3 id="9-练习游标的操作方法"><a href="#9-练习游标的操作方法" class="headerlink" title="(9)练习游标的操作方法"></a>(9)练习游标的操作方法</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--4.79</span></span><br><span class="line"><span class="keyword">DECLARE</span> xs_CUR3 <span class="keyword">CURSOR</span></span><br><span class="line"><span class="keyword">LOCAL</span> <span class="keyword">SCROLL</span> SCROLL_LOCKS</span><br><span class="line"><span class="keyword">FOR</span> </span><br><span class="line"><span class="keyword">SELECT</span> 借书证号,姓名,借书量</span><br><span class="line"><span class="keyword">FROM</span> xs</span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">UPDATE</span> <span class="keyword">OF</span> 姓名</span><br><span class="line"><span class="keyword">OPEN</span>　xs_CUR3</span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">'游标 xs_CUR3数据行数'</span>=@@CURSOR_ROWS</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span> xs_CUR2 <span class="keyword">CURSOR</span></span><br><span class="line">DYNAMIC</span><br><span class="line"><span class="keyword">FOR</span> </span><br><span class="line"><span class="keyword">SELECT</span> 借书证号,姓名,借书量</span><br><span class="line"><span class="keyword">FROM</span> xs</span><br><span class="line"><span class="keyword">WHERE</span> 专业=<span class="string">'计算机'</span></span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">UPDATE</span> <span class="keyword">OF</span> 姓名</span><br><span class="line"></span><br><span class="line"><span class="comment">--4.81 </span></span><br><span class="line"><span class="keyword">OPEN</span> xs_CUR2</span><br><span class="line"><span class="keyword">FETCH</span> <span class="keyword">FIRST</span> <span class="keyword">FROM</span> xs_CUR2</span><br><span class="line"><span class="comment">--读取游标第一行</span></span><br><span class="line"><span class="keyword">FETCH</span> <span class="keyword">NEXT</span> <span class="keyword">FROM</span> xs_CUR2</span><br><span class="line"><span class="comment">--读取游标下一行</span></span><br><span class="line"><span class="keyword">FETCH</span> <span class="keyword">PRIOR</span> <span class="keyword">FROM</span> xs_CUR2</span><br><span class="line"><span class="comment">--读取游标上一行</span></span><br><span class="line"><span class="keyword">FETCH</span> <span class="keyword">LAST</span> <span class="keyword">FROM</span> xs_CUR2</span><br><span class="line"><span class="comment">--读取游标最后一行</span></span><br><span class="line"><span class="keyword">FETCH</span> <span class="keyword">RELATIVE</span> <span class="number">-2</span> <span class="keyword">FROM</span> xs_CUR2</span><br><span class="line"><span class="comment">--读取当前行的上两行</span></span><br><span class="line"><span class="keyword">FETCH</span> <span class="keyword">RELATIVE</span> <span class="number">3</span> <span class="keyword">FROM</span> xs_CUR2</span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">'FETCH执行情况'</span>=@@FETCH_STATUS</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/04/实验一/" rel="next" title="实验一：数据库与表">
+                <i class="fa fa-chevron-left"></i> 实验一：数据库与表
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="qianyongru">
+            
+              <p class="site-author-name" itemprop="name">qianyongru</p>
+              <p class="site-description motion-element" itemprop="description">Where great ideas go on to do great things</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验目的："><span class="nav-number">1.</span> <span class="nav-text">实验目的：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-练习单表的查询方法"><span class="nav-number">1.1.</span> <span class="nav-text">(1)练习单表的查询方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）查询条件的设计"><span class="nav-number">1.2.</span> <span class="nav-text">（2）查询条件的设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-查询结果排序的方法"><span class="nav-number">1.3.</span> <span class="nav-text">(3)查询结果排序的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-练习聚合函数的使用"><span class="nav-number">1.4.</span> <span class="nav-text">(4)练习聚合函数的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-练习多表查询的方法"><span class="nav-number">1.5.</span> <span class="nav-text">(5)练习多表查询的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-练习嵌套查询的方法"><span class="nav-number">1.6.</span> <span class="nav-text">(6)练习嵌套查询的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-练习创建视图的方法"><span class="nav-number">1.7.</span> <span class="nav-text">(7)练习创建视图的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-练习查询视图的方法"><span class="nav-number">1.8.</span> <span class="nav-text">(8)练习查询视图的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-练习游标的操作方法"><span class="nav-number">1.9.</span> <span class="nav-text">(9)练习游标的操作方法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">qianyongru</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
