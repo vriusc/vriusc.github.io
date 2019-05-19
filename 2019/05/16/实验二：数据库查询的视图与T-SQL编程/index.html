@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="VRIUSC LAB" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="SELECT语句的基本使用###(1)用SELECT语句查询Departments和Salary表中的所有数据信息 12SELECT *FROM Departments 12SELECT *FROM Salary (2)查询EmployeeID为000001雇员的地址和电话123SELECT Address,PhoneNumberFROM EmployeeWHERE EmployeeID=&apos;000">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实验二：数据库查询和视图（2）">
+<meta property="og:url" content="http://yoursite.com/2019/05/16/实验二：数据库查询的视图与T-SQL编程/index.html">
+<meta property="og:site_name" content="VRIUSC LAB">
+<meta property="og:description" content="SELECT语句的基本使用###(1)用SELECT语句查询Departments和Salary表中的所有数据信息 12SELECT *FROM Departments 12SELECT *FROM Salary (2)查询EmployeeID为000001雇员的地址和电话123SELECT Address,PhoneNumberFROM EmployeeWHERE EmployeeID=&apos;000">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-19T08:32:38.505Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实验二：数据库查询和视图（2）">
+<meta name="twitter:description" content="SELECT语句的基本使用###(1)用SELECT语句查询Departments和Salary表中的所有数据信息 12SELECT *FROM Departments 12SELECT *FROM Salary (2)查询EmployeeID为000001雇员的地址和电话123SELECT Address,PhoneNumberFROM EmployeeWHERE EmployeeID=&apos;000">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/16/实验二：数据库查询的视图与T-SQL编程/">
+
+
+
+
+
+  <title>实验二：数据库查询和视图（2） | VRIUSC LAB</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">VRIUSC LAB</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Write the Code. Change the World.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/16/实验二：数据库查询的视图与T-SQL编程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="qianyongru">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VRIUSC LAB">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">实验二：数据库查询和视图（2）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-16T18:25:53+08:00">
+                2019-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="SELECT语句的基本使用"><a href="#SELECT语句的基本使用" class="headerlink" title="SELECT语句的基本使用"></a>SELECT语句的基本使用</h2><p>###(1)用SELECT语句查询Departments和Salary表中的所有数据信息</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> Departments</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> Salary</span><br></pre></td></tr></table></figure>
+<h3 id="2-查询EmployeeID为000001雇员的地址和电话"><a href="#2-查询EmployeeID为000001雇员的地址和电话" class="headerlink" title="(2)查询EmployeeID为000001雇员的地址和电话"></a>(2)查询EmployeeID为000001雇员的地址和电话</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Address,PhoneNumber</span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br><span class="line"><span class="keyword">WHERE</span> EmployeeID=<span class="string">'000001'</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-查询EMployees保重女雇员的地址和电话，使用AS字句将结果中各列的标题分别指定为地址、电话"><a href="#3-查询EMployees保重女雇员的地址和电话，使用AS字句将结果中各列的标题分别指定为地址、电话" class="headerlink" title="(3)查询EMployees保重女雇员的地址和电话，使用AS字句将结果中各列的标题分别指定为地址、电话"></a>(3)查询EMployees保重女雇员的地址和电话，使用AS字句将结果中各列的标题分别指定为地址、电话</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Address <span class="keyword">AS</span> 地址,PhoneNumber <span class="keyword">AS</span> 电话</span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br><span class="line"><span class="keyword">WHERE</span> Sex=<span class="string">'0'</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-查询Employees表中员工的姓名和性别，要求Sex值为1是显示为“男”，为0时显示为“女”"><a href="#4-查询Employees表中员工的姓名和性别，要求Sex值为1是显示为“男”，为0时显示为“女”" class="headerlink" title="(4)查询Employees表中员工的姓名和性别，要求Sex值为1是显示为“男”，为0时显示为“女”"></a>(4)查询Employees表中员工的姓名和性别，要求Sex值为1是显示为“男”，为0时显示为“女”</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">Name</span>,Sex=</span><br><span class="line"><span class="keyword">CASE</span></span><br><span class="line"><span class="keyword">WHEN</span> Sex=<span class="string">'1'</span> <span class="keyword">THEN</span> <span class="string">'男'</span></span><br><span class="line"><span class="keyword">WHEN</span> Sex=<span class="string">'0'</span> <span class="keyword">THEN</span> <span class="string">'女'</span></span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br></pre></td></tr></table></figure>
+<h3 id="5-计算每个员工的实际收入。"><a href="#5-计算每个员工的实际收入。" class="headerlink" title="(5)计算每个员工的实际收入。"></a>(5)计算每个员工的实际收入。</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">Name</span>,实际收入=InCome-OutCome</span><br><span class="line"><span class="keyword">FROM</span> Employee,Salary</span><br><span class="line"><span class="keyword">WHERE</span> Employee.EmployeeID=Salary.EmployeeID</span><br></pre></td></tr></table></figure>
+<h3 id="6-获得员工的总数"><a href="#6-获得员工的总数" class="headerlink" title="(6)获得员工的总数"></a>(6)获得员工的总数</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SElECT</span> <span class="keyword">COUNT</span>(*) <span class="keyword">AS</span> <span class="string">'员工总数'</span></span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br></pre></td></tr></table></figure>
+<h3 id="7-查询财务部雇员的最高和最低收入"><a href="#7-查询财务部雇员的最高和最低收入" class="headerlink" title="(7)查询财务部雇员的最高和最低收入"></a>(7)查询财务部雇员的最高和最低收入</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">MAX</span>(InCome-OutCome) <span class="keyword">AS</span> <span class="string">'最高实际收入'</span>,<span class="keyword">MIN</span>(Income-OutCome) <span class="keyword">AS</span> <span class="string">'最低实际收入'</span></span><br><span class="line"><span class="keyword">FROM</span> Salary,Employee</span><br><span class="line"><span class="keyword">WHERE</span> Salary.EmployeeID=Employee.EmployeeID <span class="keyword">AND</span> DepartmentID=<span class="string">'1'</span></span><br></pre></td></tr></table></figure>
+<h3 id="8-找出所有姓王的雇员的部门号"><a href="#8-找出所有姓王的雇员的部门号" class="headerlink" title="(8)找出所有姓王的雇员的部门号"></a>(8)找出所有姓王的雇员的部门号</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> DepartmentID</span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">Name</span> <span class="keyword">LIKE</span><span class="string">'王%'</span></span><br></pre></td></tr></table></figure>
+<h3 id="9-找出所有其地址含有“中山“的雇员的号码及部门号"><a href="#9-找出所有其地址含有“中山“的雇员的号码及部门号" class="headerlink" title="(9)找出所有其地址含有“中山“的雇员的号码及部门号"></a>(9)找出所有其地址含有“中山“的雇员的号码及部门号</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> EmployeeID,DepartmentID</span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br><span class="line"><span class="keyword">WHERE</span> Address <span class="keyword">LIKE</span> <span class="string">'%中山%'</span></span><br></pre></td></tr></table></figure>
+<h3 id="10-找出所有在部门”1“或”2“工作的雇员的号码"><a href="#10-找出所有在部门”1“或”2“工作的雇员的号码" class="headerlink" title="(10)找出所有在部门”1“或”2“工作的雇员的号码"></a>(10)找出所有在部门”1“或”2“工作的雇员的号码</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> EmployeeID</span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br><span class="line"><span class="keyword">WHERE</span> DepartmentID=<span class="string">'1'</span> <span class="keyword">OR</span> DepartmentID=<span class="string">'2'</span></span><br></pre></td></tr></table></figure>
+<h3 id="11-找出所有收入在2000～3000元之间的员工号码"><a href="#11-找出所有收入在2000～3000元之间的员工号码" class="headerlink" title="(11)找出所有收入在2000～3000元之间的员工号码"></a>(11)找出所有收入在2000～3000元之间的员工号码</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> EmployeeID</span><br><span class="line"><span class="keyword">FROM</span> Salary</span><br><span class="line"><span class="keyword">WHERE</span> InCome <span class="keyword">BETWEEN</span> <span class="string">'2000'</span> <span class="keyword">AND</span> <span class="string">'3000'</span></span><br></pre></td></tr></table></figure>
+<h3 id="12-使用INTO子句，由表Salary创建”收入在1500元以上员工“表，包括编号和收入"><a href="#12-使用INTO子句，由表Salary创建”收入在1500元以上员工“表，包括编号和收入" class="headerlink" title="(12)使用INTO子句，由表Salary创建”收入在1500元以上员工“表，包括编号和收入"></a>(12)使用INTO子句，由表Salary创建”收入在1500元以上员工“表，包括编号和收入</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">SELECT</span> EmployeeID <span class="keyword">AS</span> 编号,InCome <span class="keyword">AS</span> 收入</span><br><span class="line"><span class="keyword">INTO</span> 收入在<span class="number">1500</span>以上</span><br><span class="line"><span class="keyword">FROM</span> Salary</span><br><span class="line"><span class="keyword">WHERE</span> InCome&gt;<span class="number">1500</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-子查询"><a href="#2-子查询" class="headerlink" title="(2)子查询"></a>(2)子查询</h2><h3 id="1-查找在财务部工作的雇员的情况"><a href="#1-查找在财务部工作的雇员的情况" class="headerlink" title="(1)查找在财务部工作的雇员的情况"></a>(1)查找在财务部工作的雇员的情况</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br><span class="line"><span class="keyword">WHERE</span> DepartmentID <span class="keyword">IN</span> </span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span> DepartmentID</span><br><span class="line"><span class="keyword">FROM</span> Departments</span><br><span class="line"><span class="keyword">WHERE</span> DepartmentName=<span class="string">'财务部'</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="2-查找在财务部年龄不低于研发部雇员年龄的雇员的姓名"><a href="#2-查找在财务部年龄不低于研发部雇员年龄的雇员的姓名" class="headerlink" title="(2)查找在财务部年龄不低于研发部雇员年龄的雇员的姓名"></a>(2)查找在财务部年龄不低于研发部雇员年龄的雇员的姓名</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">NAME</span></span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br><span class="line"><span class="keyword">WHERE</span> DepartmentID <span class="keyword">IN</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span> DepartmentID</span><br><span class="line"><span class="keyword">FROM</span> Departments</span><br><span class="line"><span class="keyword">WHERE</span> DepartmentName=<span class="string">'财务部'</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">AND</span> Birthday&lt;</span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">MIN</span>(Birthday)</span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br><span class="line"><span class="keyword">WHERE</span> DepartmentID <span class="keyword">IN</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span> DepartmentID</span><br><span class="line"><span class="keyword">FROM</span> Departments</span><br><span class="line"><span class="keyword">WHERE</span> DepartmentName=<span class="string">'研发部'</span></span><br><span class="line">)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="3-查找比所有财务部雇员收入都高的雇员的姓名"><a href="#3-查找比所有财务部雇员收入都高的雇员的姓名" class="headerlink" title="(3)查找比所有财务部雇员收入都高的雇员的姓名"></a>(3)查找比所有财务部雇员收入都高的雇员的姓名</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">Name</span></span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br><span class="line"><span class="keyword">WHERE</span> EmployeeID <span class="keyword">IN</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span> EmployeeID </span><br><span class="line"><span class="keyword">FROM</span> Salary</span><br><span class="line"><span class="keyword">WHERE</span> InCome&gt;<span class="keyword">ALL</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span> InCome </span><br><span class="line"><span class="keyword">FROM</span> Salary </span><br><span class="line"><span class="keyword">WHERE</span> EmployeeID <span class="keyword">IN</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span> EmployeeID</span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br><span class="line"><span class="keyword">WHERE</span> DepartmentID=</span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span> DepartmentID</span><br><span class="line"><span class="keyword">FROM</span> Departments</span><br><span class="line"><span class="keyword">WHERE</span> DepartmentName=<span class="string">'财务部'</span></span><br><span class="line">)</span><br><span class="line">)</span><br><span class="line">)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h2 id="3-多表查询"><a href="#3-多表查询" class="headerlink" title="(3)多表查询"></a>(3)多表查询</h2><h3 id="1-查询每个雇员的情况及其薪水的情况"><a href="#1-查询每个雇员的情况及其薪水的情况" class="headerlink" title="(1)查询每个雇员的情况及其薪水的情况"></a>(1)查询每个雇员的情况及其薪水的情况</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a.*,b.*</span><br><span class="line"><span class="keyword">FROM</span> Employee a,Salary b</span><br><span class="line"><span class="keyword">WHERE</span> a.EmployeeID=b.EmployeeID</span><br></pre></td></tr></table></figure>
+<h3 id="2-使用内连接的方法查找名字为”王林“的员工所在的部门"><a href="#2-使用内连接的方法查找名字为”王林“的员工所在的部门" class="headerlink" title="(2)使用内连接的方法查找名字为”王林“的员工所在的部门"></a>(2)使用内连接的方法查找名字为”王林“的员工所在的部门</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> DepartmentName</span><br><span class="line"><span class="keyword">FROM</span> Departments</span><br><span class="line"><span class="keyword">INNER</span>　<span class="keyword">JOIN</span> Employee</span><br><span class="line"><span class="keyword">ON</span> Employee.DepartmentID=Departments.DepartmentID</span><br><span class="line"><span class="keyword">WHERE</span> Employee.Name=<span class="string">'王林'</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-查找财务部收入在2000元以上的雇员姓名及其薪水详情"><a href="#3-查找财务部收入在2000元以上的雇员姓名及其薪水详情" class="headerlink" title="(3)查找财务部收入在2000元以上的雇员姓名及其薪水详情"></a>(3)查找财务部收入在2000元以上的雇员姓名及其薪水详情</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Employee.*,Salary.*</span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Salary</span><br><span class="line"><span class="keyword">ON</span> Employee.EmployeeID=Salary.EmployeeID</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Departments</span><br><span class="line"><span class="keyword">ON</span> Employee.DepartmentID=Departments.DepartmentID</span><br><span class="line"><span class="keyword">WHERE</span> Salary.InCome&gt;<span class="number">2000</span> <span class="keyword">AND</span> DepartmentName=<span class="string">'财务部'</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-查询研发部在1976年以前出生的雇员姓名及其薪水情况"><a href="#4-查询研发部在1976年以前出生的雇员姓名及其薪水情况" class="headerlink" title="(4)查询研发部在1976年以前出生的雇员姓名及其薪水情况"></a>(4)查询研发部在1976年以前出生的雇员姓名及其薪水情况</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Employee.Name,Salary.InCome,Salary.OutCome</span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Salary</span><br><span class="line"><span class="keyword">ON</span> Employee.EmployeeID=Salary.EmployeeID</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Departments</span><br><span class="line"><span class="keyword">ON</span> Employee.DepartmentID=Departments.DepartmentID</span><br><span class="line"><span class="keyword">WHERE</span> DepartmentName=<span class="string">'研发部'</span> <span class="keyword">AND</span> Employee.Birthday&lt;<span class="string">'1976'</span></span><br></pre></td></tr></table></figure>
+<h2 id="4-聚合函数"><a href="#4-聚合函数" class="headerlink" title="(4)聚合函数"></a>(4)聚合函数</h2><h3 id="1-求财务部雇员的平均收入"><a href="#1-求财务部雇员的平均收入" class="headerlink" title="(1)求财务部雇员的平均收入"></a>(1)求财务部雇员的平均收入</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">AVG</span>(Salary.InCome)</span><br><span class="line"><span class="keyword">FROM</span> Salary</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Employee</span><br><span class="line"><span class="keyword">ON</span> Salary.EmployeeID=Employee.EmployeeID</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Departments</span><br><span class="line"><span class="keyword">ON</span> Departments.DepartmentID=Employee.DepartmentID</span><br><span class="line"><span class="keyword">WHERE</span> Departments.DepartmentName=<span class="string">'财务部'</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-求财务部雇员的平均实际收入"><a href="#2-求财务部雇员的平均实际收入" class="headerlink" title="(2)求财务部雇员的平均实际收入"></a>(2)求财务部雇员的平均实际收入</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">AVG</span>(Salary.InCome-Salary.OutCome)</span><br><span class="line"><span class="keyword">FROM</span> Salary</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Employee</span><br><span class="line"><span class="keyword">ON</span> Salary.EmployeeID=Employee.EmployeeID</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Departments</span><br><span class="line"><span class="keyword">ON</span> Departments.DepartmentID=Employee.DepartmentID</span><br><span class="line"><span class="keyword">WHERE</span> Departments.DepartmentName=<span class="string">'财务部'</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-统计财务部收入在2500元以上的雇员人数"><a href="#3-统计财务部收入在2500元以上的雇员人数" class="headerlink" title="(3)统计财务部收入在2500元以上的雇员人数"></a>(3)统计财务部收入在2500元以上的雇员人数</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(InCome)</span><br><span class="line"><span class="keyword">FROM</span> Salary</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Employee</span><br><span class="line"><span class="keyword">ON</span> Salary.EmployeeID=Employee.EmployeeID</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Departments</span><br><span class="line"><span class="keyword">ON</span> Departments.DepartmentID=Employee.DepartmentID</span><br><span class="line"><span class="keyword">WHERE</span> Departments.DepartmentName=<span class="string">'财务部'</span><span class="keyword">AND</span> InCome&gt;<span class="number">2500</span></span><br></pre></td></tr></table></figure>
+<h2 id="5-视图"><a href="#5-视图" class="headerlink" title="(5)视图"></a>(5)视图</h2><h3 id="1-创建yggl数据库上的视图DS-VIEW-视图包含Depatrments表的全部列"><a href="#1-创建yggl数据库上的视图DS-VIEW-视图包含Depatrments表的全部列" class="headerlink" title="(1)创建yggl数据库上的视图DS_VIEW,视图包含Depatrments表的全部列"></a>(1)创建yggl数据库上的视图DS_VIEW,视图包含Depatrments表的全部列</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> yggl</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> DS_VIEW</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span> Departments</span><br></pre></td></tr></table></figure>
+<h3 id="2-创建yggl数据库上的视图Employees-view-视图包含员工号码、姓名和实际收入三列"><a href="#2-创建yggl数据库上的视图Employees-view-视图包含员工号码、姓名和实际收入三列" class="headerlink" title="(2)创建yggl数据库上的视图Employees_view,视图包含员工号码、姓名和实际收入三列"></a>(2)创建yggl数据库上的视图Employees_view,视图包含员工号码、姓名和实际收入三列</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> yggl</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> Employee_view</span><br><span class="line"><span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> Employee.EmployeeID,Employee.Name,Salary.InCome-Salary.OutCome <span class="keyword">AS</span> 实际收入</span><br><span class="line"><span class="keyword">FROM</span> Employee,Salary</span><br><span class="line"><span class="keyword">WHERE</span> Employee.EmployeeID=Salary.EmployeeID</span><br></pre></td></tr></table></figure>
+<h3 id="3-从视图DS-VIEW中查询出部门号为3的部门名称。"><a href="#3-从视图DS-VIEW中查询出部门号为3的部门名称。" class="headerlink" title="(3)从视图DS_VIEW中查询出部门号为3的部门名称。"></a>(3)从视图DS_VIEW中查询出部门号为3的部门名称。</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> DepartmentName</span><br><span class="line"><span class="keyword">FROM</span> DS_VIEW</span><br><span class="line"><span class="keyword">WHERE</span> DepartmentID=<span class="string">'3'</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-从视图Employees-view中查询出姓名为”王林“的员工的实际收入"><a href="#4-从视图Employees-view中查询出姓名为”王林“的员工的实际收入" class="headerlink" title="(4)从视图Employees_view中查询出姓名为”王林“的员工的实际收入"></a>(4)从视图Employees_view中查询出姓名为”王林“的员工的实际收入</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 实际收入</span><br><span class="line"><span class="keyword">FROM</span> Employee_view</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">NAME</span>=<span class="string">'王林'</span></span><br></pre></td></tr></table></figure>
+<h3 id="5-从视图DS-VIEW中插入一行数据”6，广告部。广告业务“"><a href="#5-从视图DS-VIEW中插入一行数据”6，广告部。广告业务“" class="headerlink" title="(5)从视图DS_VIEW中插入一行数据”6，广告部。广告业务“"></a>(5)从视图DS_VIEW中插入一行数据”6，广告部。广告业务“</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> DS_VIEW(DepartmentID,DepartmentName,Note)</span><br><span class="line"><span class="keyword">VALUES</span> (<span class="string">'6'</span>,<span class="string">'广告部'</span>,<span class="string">'广告业务'</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/16/实验二：数据库的查询和视图与T-SQL编程（一）/" rel="next" title="实验二：数据库查询和视图（1）">
+                <i class="fa fa-chevron-left"></i> 实验二：数据库查询和视图（1）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="qianyongru">
+            
+              <p class="site-author-name" itemprop="name">qianyongru</p>
+              <p class="site-description motion-element" itemprop="description">Where great ideas go on to do great things</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SELECT语句的基本使用"><span class="nav-number">1.</span> <span class="nav-text">SELECT语句的基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-查询EmployeeID为000001雇员的地址和电话"><span class="nav-number">1.1.</span> <span class="nav-text">(2)查询EmployeeID为000001雇员的地址和电话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-查询EMployees保重女雇员的地址和电话，使用AS字句将结果中各列的标题分别指定为地址、电话"><span class="nav-number">1.2.</span> <span class="nav-text">(3)查询EMployees保重女雇员的地址和电话，使用AS字句将结果中各列的标题分别指定为地址、电话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-查询Employees表中员工的姓名和性别，要求Sex值为1是显示为“男”，为0时显示为“女”"><span class="nav-number">1.3.</span> <span class="nav-text">(4)查询Employees表中员工的姓名和性别，要求Sex值为1是显示为“男”，为0时显示为“女”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-计算每个员工的实际收入。"><span class="nav-number">1.4.</span> <span class="nav-text">(5)计算每个员工的实际收入。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-获得员工的总数"><span class="nav-number">1.5.</span> <span class="nav-text">(6)获得员工的总数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-查询财务部雇员的最高和最低收入"><span class="nav-number">1.6.</span> <span class="nav-text">(7)查询财务部雇员的最高和最低收入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-找出所有姓王的雇员的部门号"><span class="nav-number">1.7.</span> <span class="nav-text">(8)找出所有姓王的雇员的部门号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-找出所有其地址含有“中山“的雇员的号码及部门号"><span class="nav-number">1.8.</span> <span class="nav-text">(9)找出所有其地址含有“中山“的雇员的号码及部门号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-找出所有在部门”1“或”2“工作的雇员的号码"><span class="nav-number">1.9.</span> <span class="nav-text">(10)找出所有在部门”1“或”2“工作的雇员的号码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-找出所有收入在2000～3000元之间的员工号码"><span class="nav-number">1.10.</span> <span class="nav-text">(11)找出所有收入在2000～3000元之间的员工号码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-使用INTO子句，由表Salary创建”收入在1500元以上员工“表，包括编号和收入"><span class="nav-number">1.11.</span> <span class="nav-text">(12)使用INTO子句，由表Salary创建”收入在1500元以上员工“表，包括编号和收入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-子查询"><span class="nav-number">2.</span> <span class="nav-text">(2)子查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-查找在财务部工作的雇员的情况"><span class="nav-number">2.1.</span> <span class="nav-text">(1)查找在财务部工作的雇员的情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-查找在财务部年龄不低于研发部雇员年龄的雇员的姓名"><span class="nav-number">2.2.</span> <span class="nav-text">(2)查找在财务部年龄不低于研发部雇员年龄的雇员的姓名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-查找比所有财务部雇员收入都高的雇员的姓名"><span class="nav-number">2.3.</span> <span class="nav-text">(3)查找比所有财务部雇员收入都高的雇员的姓名</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-多表查询"><span class="nav-number">3.</span> <span class="nav-text">(3)多表查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-查询每个雇员的情况及其薪水的情况"><span class="nav-number">3.1.</span> <span class="nav-text">(1)查询每个雇员的情况及其薪水的情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-使用内连接的方法查找名字为”王林“的员工所在的部门"><span class="nav-number">3.2.</span> <span class="nav-text">(2)使用内连接的方法查找名字为”王林“的员工所在的部门</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-查找财务部收入在2000元以上的雇员姓名及其薪水详情"><span class="nav-number">3.3.</span> <span class="nav-text">(3)查找财务部收入在2000元以上的雇员姓名及其薪水详情</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-查询研发部在1976年以前出生的雇员姓名及其薪水情况"><span class="nav-number">3.4.</span> <span class="nav-text">(4)查询研发部在1976年以前出生的雇员姓名及其薪水情况</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-聚合函数"><span class="nav-number">4.</span> <span class="nav-text">(4)聚合函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-求财务部雇员的平均收入"><span class="nav-number">4.1.</span> <span class="nav-text">(1)求财务部雇员的平均收入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-求财务部雇员的平均实际收入"><span class="nav-number">4.2.</span> <span class="nav-text">(2)求财务部雇员的平均实际收入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-统计财务部收入在2500元以上的雇员人数"><span class="nav-number">4.3.</span> <span class="nav-text">(3)统计财务部收入在2500元以上的雇员人数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-视图"><span class="nav-number">5.</span> <span class="nav-text">(5)视图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-创建yggl数据库上的视图DS-VIEW-视图包含Depatrments表的全部列"><span class="nav-number">5.1.</span> <span class="nav-text">(1)创建yggl数据库上的视图DS_VIEW,视图包含Depatrments表的全部列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-创建yggl数据库上的视图Employees-view-视图包含员工号码、姓名和实际收入三列"><span class="nav-number">5.2.</span> <span class="nav-text">(2)创建yggl数据库上的视图Employees_view,视图包含员工号码、姓名和实际收入三列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-从视图DS-VIEW中查询出部门号为3的部门名称。"><span class="nav-number">5.3.</span> <span class="nav-text">(3)从视图DS_VIEW中查询出部门号为3的部门名称。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-从视图Employees-view中查询出姓名为”王林“的员工的实际收入"><span class="nav-number">5.4.</span> <span class="nav-text">(4)从视图Employees_view中查询出姓名为”王林“的员工的实际收入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-从视图DS-VIEW中插入一行数据”6，广告部。广告业务“"><span class="nav-number">5.5.</span> <span class="nav-text">(5)从视图DS_VIEW中插入一行数据”6，广告部。广告业务“</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">qianyongru</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

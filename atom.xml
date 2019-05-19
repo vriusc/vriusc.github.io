@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-05-15T17:50:48.729Z</updated>
+  <updated>2019-05-19T08:32:38.505Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,33 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>实验二：数据库的查询和视图与T-SQL编程（一）</title>
+    <title>实验二：数据库查询和视图（2）</title>
+    <link href="http://yoursite.com/2019/05/16/%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9F%A5%E8%AF%A2%E7%9A%84%E8%A7%86%E5%9B%BE%E4%B8%8ET-SQL%E7%BC%96%E7%A8%8B/"/>
+    <id>http://yoursite.com/2019/05/16/实验二：数据库查询的视图与T-SQL编程/</id>
+    <published>2019-05-16T10:25:53.000Z</published>
+    <updated>2019-05-19T08:32:38.505Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>实验二：数据库查询和视图（1）</title>
     <link href="http://yoursite.com/2019/05/16/%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%9F%A5%E8%AF%A2%E5%92%8C%E8%A7%86%E5%9B%BE%E4%B8%8ET-SQL%E7%BC%96%E7%A8%8B%EF%BC%88%E4%B8%80%EF%BC%89/"/>
     <id>http://yoursite.com/2019/05/16/实验二：数据库的查询和视图与T-SQL编程（一）/</id>
     <published>2019-05-15T16:49:35.000Z</published>
-    <updated>2019-05-15T17:50:48.729Z</updated>
+    <updated>2019-05-18T17:28:59.111Z</updated>
     
     <summary type="html">
     
@@ -43,7 +65,7 @@
     <link href="http://yoursite.com/2019/05/04/%E5%AE%9E%E9%AA%8C%E4%B8%80/"/>
     <id>http://yoursite.com/2019/05/04/实验一/</id>
     <published>2019-05-03T17:06:36.000Z</published>
-    <updated>2019-05-15T18:07:59.683Z</updated>
+    <updated>2019-05-18T17:18:52.285Z</updated>
     
     <summary type="html">
     
