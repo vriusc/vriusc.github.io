@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-05-21T23:56:59.193Z</updated>
+  <updated>2019-06-11T11:06:57.966Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,94 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>实验七：数据库备份与恢复</title>
+    <link href="http://yoursite.com/2019/06/11/%E5%AE%9E%E9%AA%8C-7-%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/"/>
+    <id>http://yoursite.com/2019/06/11/实验-7-：数据库备份与恢复/</id>
+    <published>2019-06-11T09:00:14.000Z</published>
+    <updated>2019-06-11T11:06:57.966Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>实验六：系统安全管理</title>
+    <link href="http://yoursite.com/2019/06/10/%E5%AE%9E%E9%AA%8C%E5%85%AD%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86/"/>
+    <id>http://yoursite.com/2019/06/10/实验六：数据库安全管理/</id>
+    <published>2019-06-10T10:10:10.000Z</published>
+    <updated>2019-06-11T11:10:56.893Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>实验五:存储过程和触发器</title>
+    <link href="http://yoursite.com/2019/06/06/%E5%AE%9E%E9%AA%8C%E4%BC%8D%EF%BC%9A%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E5%92%8C%E8%A7%A6%E5%8F%91%E5%99%A8/"/>
+    <id>http://yoursite.com/2019/06/06/实验伍：存储过程和触发器/</id>
+    <published>2019-06-05T16:57:26.000Z</published>
+    <updated>2019-06-05T20:58:38.301Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>实验四:索引与数据完整性</title>
+    <link href="http://yoursite.com/2019/06/04/%E5%AE%9E%E9%AA%8C%E5%9B%9B-%E7%B4%A2%E5%BC%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7/"/>
+    <id>http://yoursite.com/2019/06/04/实验四-索引与数据完整性/</id>
+    <published>2019-06-04T06:29:08.000Z</published>
+    <updated>2019-06-05T20:00:47.903Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          
+        
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>实验三：T-SQL编程(2)</title>

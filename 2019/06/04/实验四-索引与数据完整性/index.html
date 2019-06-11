@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="VRIUSC LAB" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="基础训练参照例6.1、例6.2、例6.3联系创建索引的方法6.1对于jy表，按借书证号+ISBN创建索引123456789101112IF EXISTS(SELECT　name FROM sysindexes WHERE name= &apos;jy_num_ind&apos;)DROPINDEX jy.jy_num_indGOCREATE INDEX jy_num_indON jy(借书证号,ISBN) 6.2根据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实验四:索引与数据完整性">
+<meta property="og:url" content="http://yoursite.com/2019/06/04/实验四-索引与数据完整性/index.html">
+<meta property="og:site_name" content="VRIUSC LAB">
+<meta property="og:description" content="基础训练参照例6.1、例6.2、例6.3联系创建索引的方法6.1对于jy表，按借书证号+ISBN创建索引123456789101112IF EXISTS(SELECT　name FROM sysindexes WHERE name= &apos;jy_num_ind&apos;)DROPINDEX jy.jy_num_indGOCREATE INDEX jy_num_indON jy(借书证号,ISBN) 6.2根据">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-05T20:00:47.903Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实验四:索引与数据完整性">
+<meta name="twitter:description" content="基础训练参照例6.1、例6.2、例6.3联系创建索引的方法6.1对于jy表，按借书证号+ISBN创建索引123456789101112IF EXISTS(SELECT　name FROM sysindexes WHERE name= &apos;jy_num_ind&apos;)DROPINDEX jy.jy_num_indGOCREATE INDEX jy_num_indON jy(借书证号,ISBN) 6.2根据">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/04/实验四-索引与数据完整性/">
+
+
+
+
+
+  <title>实验四:索引与数据完整性 | VRIUSC LAB</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">VRIUSC LAB</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Write the Code. Change the World.</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/04/实验四-索引与数据完整性/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="qianyongru">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VRIUSC LAB">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">实验四:索引与数据完整性</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-04T14:29:08+08:00">
+                2019-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="基础训练"><a href="#基础训练" class="headerlink" title="基础训练"></a>基础训练</h1><h2 id="参照例6-1、例6-2、例6-3联系创建索引的方法"><a href="#参照例6-1、例6-2、例6-3联系创建索引的方法" class="headerlink" title="参照例6.1、例6.2、例6.3联系创建索引的方法"></a>参照例6.1、例6.2、例6.3联系创建索引的方法</h2><h3 id="6-1对于jy表，按借书证号-ISBN创建索引"><a href="#6-1对于jy表，按借书证号-ISBN创建索引" class="headerlink" title="6.1对于jy表，按借书证号+ISBN创建索引"></a>6.1对于jy表，按借书证号+ISBN创建索引</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">IF EXISTS</span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span>　<span class="keyword">name</span> </span><br><span class="line"><span class="keyword">FROM</span> sysindexes </span><br><span class="line"><span class="keyword">WHERE</span> </span><br><span class="line"><span class="keyword">name</span>= <span class="string">'jy_num_ind'</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">DROP</span></span><br><span class="line"><span class="keyword">INDEX</span> jy.jy_num_ind</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> jy_num_ind</span><br><span class="line"><span class="keyword">ON</span> jy(借书证号,ISBN)</span><br></pre></td></tr></table></figure>
+<h3 id="6-2根据book表的ISBN列创建唯一聚集索引，因为指定了CLUSTERED字句，所以该索引将对磁盘上的数据进行物理排序。"><a href="#6-2根据book表的ISBN列创建唯一聚集索引，因为指定了CLUSTERED字句，所以该索引将对磁盘上的数据进行物理排序。" class="headerlink" title="6.2根据book表的ISBN列创建唯一聚集索引，因为指定了CLUSTERED字句，所以该索引将对磁盘上的数据进行物理排序。"></a>6.2根据book表的ISBN列创建唯一聚集索引，因为指定了CLUSTERED字句，所以该索引将对磁盘上的数据进行物理排序。</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> CLUSTERED <span class="keyword">INDEX</span> book_id_ind</span><br><span class="line"><span class="keyword">ON</span> book(ISBN)</span><br></pre></td></tr></table></figure>
+<h3 id="6-3根据xs表中借书证号字段创建唯一聚合索引。如果输入了重复键值，将忽略该INSERT或UPDATE语句"><a href="#6-3根据xs表中借书证号字段创建唯一聚合索引。如果输入了重复键值，将忽略该INSERT或UPDATE语句" class="headerlink" title="6 .3根据xs表中借书证号字段创建唯一聚合索引。如果输入了重复键值，将忽略该INSERT或UPDATE语句"></a>6 .3根据xs表中借书证号字段创建唯一聚合索引。如果输入了重复键值，将忽略该INSERT或UPDATE语句</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> CLUSTERED <span class="keyword">INDEX</span> xs_ind</span><br><span class="line"><span class="keyword">ON</span> xs(借书证号)</span><br><span class="line"><span class="keyword">WITH</span> IGNORE_DUP_KEY</span><br></pre></td></tr></table></figure>
+<h2 id="参照例6-7、例6-8、例6-9、例6-11、例6-12、例6-15、例6-16练习操作数据完整性的方法"><a href="#参照例6-7、例6-8、例6-9、例6-11、例6-12、例6-15、例6-16练习操作数据完整性的方法" class="headerlink" title="参照例6.7、例6.8、例6.9、例6.11、例6.12、例6.15、例6.16练习操作数据完整性的方法"></a>参照例6.7、例6.8、例6.9、例6.11、例6.12、例6.15、例6.16练习操作数据完整性的方法</h2><h3 id="6-7-对于数据库xsbook中的表book-要求图书的最高限价为250元，请重新定义book表"><a href="#6-7-对于数据库xsbook中的表book-要求图书的最高限价为250元，请重新定义book表" class="headerlink" title="6.7 对于数据库xsbook中的表book,要求图书的最高限价为250元，请重新定义book表"></a>6.7 对于数据库xsbook中的表book,要求图书的最高限价为250元，请重新定义book表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span>　<span class="keyword">TABLE</span>　book</span><br><span class="line">(</span><br><span class="line">ISBN	<span class="built_in">char</span>(<span class="number">18</span>)	<span class="keyword">NOT</span> <span class="literal">NULL</span>	PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">书名	<span class="built_in">char</span>(<span class="number">40</span>)	<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">作者	<span class="built_in">char</span>(<span class="number">16</span>)	<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">出版社	<span class="built_in">char</span>(<span class="number">30</span>)	<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">价格	<span class="built_in">float</span>		<span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">CHECK</span>(价格&lt;=<span class="number">2500</span>),</span><br><span class="line">复本量	<span class="built_in">int</span>			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">库存量	<span class="built_in">int</span>			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="6-8创建表student-有学号，最好成绩和平均成绩三列，要求最好成绩必须大于平均成绩"><a href="#6-8创建表student-有学号，最好成绩和平均成绩三列，要求最好成绩必须大于平均成绩" class="headerlink" title="6.8创建表student,有学号，最好成绩和平均成绩三列，要求最好成绩必须大于平均成绩"></a>6.8创建表student,有学号，最好成绩和平均成绩三列，要求最好成绩必须大于平均成绩</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> student</span><br><span class="line">(</span><br><span class="line">学号   <span class="built_in">char</span>(<span class="number">16</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">最好成绩 <span class="built_in">int</span>   <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">平均成绩 <span class="built_in">int</span>   <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="keyword">CHECK</span> (最好成绩&gt;平均成绩)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="6-9通过修改xsbook数据库中的xs表，增加借书证号字段的CHECK约束-要求借书证号必须全由6个数字字符构成，并且不等于’000000’。"><a href="#6-9通过修改xsbook数据库中的xs表，增加借书证号字段的CHECK约束-要求借书证号必须全由6个数字字符构成，并且不等于’000000’。" class="headerlink" title="6.9通过修改xsbook数据库中的xs表，增加借书证号字段的CHECK约束:要求借书证号必须全由6个数字字符构成，并且不等于’000000’。"></a>6.9通过修改xsbook数据库中的xs表，增加借书证号字段的CHECK约束:要求借书证号必须全由6个数字字符构成，并且不等于’000000’。</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> xs</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> card_constraint</span><br><span class="line"><span class="keyword">CHECK</span></span><br><span class="line">(借书证号 <span class="keyword">LIKE</span><span class="string">'[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'</span><span class="keyword">AND</span> 借书证号&lt;&gt;<span class="string">'000000'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="6-11创建xs4表并对借书证号字段创建PRIMARY-KEY约束，对姓名字段定义UNIQUE约束"><a href="#6-11创建xs4表并对借书证号字段创建PRIMARY-KEY约束，对姓名字段定义UNIQUE约束" class="headerlink" title="6.11创建xs4表并对借书证号字段创建PRIMARY KEY约束，对姓名字段定义UNIQUE约束"></a>6.11创建xs4表并对借书证号字段创建PRIMARY KEY约束，对姓名字段定义UNIQUE约束</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> xsbook</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> xs4</span><br><span class="line">(</span><br><span class="line">借书证号	<span class="built_in">char</span>(<span class="number">8</span>)			<span class="keyword">NOT</span> <span class="literal">NULL</span>	<span class="keyword">CONSTRAINT</span> xs_pk PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">姓名		<span class="built_in">char</span>(<span class="number">8</span>)			<span class="keyword">NOT</span> <span class="literal">NULL</span>	<span class="keyword">CONSTRAINT</span> XM_UK <span class="keyword">UNIQUE</span>,</span><br><span class="line">性别		<span class="built_in">bit</span>				<span class="keyword">NOT</span> <span class="literal">NULL</span>,	</span><br><span class="line">出生日期	<span class="built_in">date</span>			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">专业		<span class="built_in">char</span>(<span class="number">12</span>)		<span class="keyword">NOT</span> <span class="literal">NULL</span>,	</span><br><span class="line">借书量		<span class="built_in">int</span>				<span class="keyword">NOT</span> <span class="literal">NULL</span>	<span class="keyword">CHECK</span>(借书量&gt;=<span class="number">0</span> <span class="keyword">AND</span> 借书量&lt;=<span class="number">20</span>),	</span><br><span class="line">照片		varbinary(<span class="keyword">MAX</span>)	<span class="literal">NULL</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="6-12创建借阅历史表jylsl-由借书证号、索书号、借书时间作为联合主键"><a href="#6-12创建借阅历史表jylsl-由借书证号、索书号、借书时间作为联合主键" class="headerlink" title="6.12创建借阅历史表jylsl,由借书证号、索书号、借书时间作为联合主键"></a>6.12创建借阅历史表jylsl,由借书证号、索书号、借书时间作为联合主键</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> jsls1</span><br><span class="line">(</span><br><span class="line">索书号		<span class="built_in">char</span>(<span class="number">10</span>)		<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">借书证号	<span class="built_in">char</span>(<span class="number">8</span>)			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">ISBN		<span class="built_in">char</span>(<span class="number">18</span>)		<span class="keyword">NOT</span> <span class="literal">NULL</span>,	</span><br><span class="line">借书时间	<span class="built_in">date</span>			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">还书时间	<span class="built_in">date</span>			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">PRIMARY   <span class="keyword">KEY</span>(索书号,借书证号,借书时间)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="6-15在xsbook数据库中创建主表xs1和book1-借书证号为xs1表的主键，ISBN为book1的主键，然后定义从表jy1-jy1-借书证号为外键，与xs1的主键对应，当对表进行更新和删除操作时，对从表采用级联操作，jy1-ISBN为外键，与book1的主键对应，当对主表进行更新和删除时，对从表采用NO-ACTION方式。"><a href="#6-15在xsbook数据库中创建主表xs1和book1-借书证号为xs1表的主键，ISBN为book1的主键，然后定义从表jy1-jy1-借书证号为外键，与xs1的主键对应，当对表进行更新和删除操作时，对从表采用级联操作，jy1-ISBN为外键，与book1的主键对应，当对主表进行更新和删除时，对从表采用NO-ACTION方式。" class="headerlink" title="6.15在xsbook数据库中创建主表xs1和book1,借书证号为xs1表的主键，ISBN为book1的主键，然后定义从表jy1,jy1.借书证号为外键，与xs1的主键对应，当对表进行更新和删除操作时，对从表采用级联操作，jy1.ISBN为外键，与book1的主键对应，当对主表进行更新和删除时，对从表采用NO ACTION方式。"></a>6.15在xsbook数据库中创建主表xs1和book1,借书证号为xs1表的主键，ISBN为book1的主键，然后定义从表jy1,jy1.借书证号为外键，与xs1的主键对应，当对表进行更新和删除操作时，对从表采用级联操作，jy1.ISBN为外键，与book1的主键对应，当对主表进行更新和删除时，对从表采用NO ACTION方式。</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> xsbook</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">IF</span> <span class="keyword">EXISTS</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span> </span><br><span class="line"><span class="keyword">FROM</span> sysobjects </span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">name</span>=<span class="string">'xs1'</span> <span class="keyword">AND</span> <span class="keyword">type</span>=<span class="string">'U'</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> xs1</span><br><span class="line"><span class="keyword">IF</span> <span class="keyword">EXISTS</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span> </span><br><span class="line"><span class="keyword">FROM</span> sysobjects </span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">name</span>=<span class="string">'book1'</span> <span class="keyword">AND</span> <span class="keyword">type</span>=<span class="string">'U'</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> book1</span><br><span class="line"><span class="keyword">IF</span> <span class="keyword">EXISTS</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span> </span><br><span class="line"><span class="keyword">FROM</span> sysobjects </span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">name</span>=<span class="string">'jy1'</span> <span class="keyword">AND</span> <span class="keyword">type</span>=<span class="string">'U'</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> jy1</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> xs1</span><br><span class="line">(</span><br><span class="line">借书证号	<span class="built_in">char</span>(<span class="number">8</span>)			<span class="keyword">NOT</span> <span class="literal">NULL</span>	<span class="keyword">CONSTRAINT</span> xs_pk PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">姓名		<span class="built_in">char</span>(<span class="number">8</span>)			<span class="keyword">NOT</span> <span class="literal">NULL</span>	<span class="keyword">CONSTRAINT</span> XM_UK <span class="keyword">UNIQUE</span>,</span><br><span class="line">性别		<span class="built_in">bit</span>				<span class="keyword">NOT</span> <span class="literal">NULL</span>,	</span><br><span class="line">出生日期	<span class="built_in">date</span>			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">专业		<span class="built_in">char</span>(<span class="number">12</span>)		<span class="keyword">NOT</span> <span class="literal">NULL</span>,	</span><br><span class="line">借书量		<span class="built_in">int</span>			<span class="keyword">NOT</span> <span class="literal">NULL</span>	<span class="keyword">CHECK</span>(借书量&gt;=<span class="number">0</span> <span class="keyword">AND</span> 借书量&lt;=<span class="number">20</span>),	</span><br><span class="line">照片		varbinary(<span class="keyword">MAX</span>)	<span class="literal">NULL</span>,</span><br><span class="line">)</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> book1</span><br><span class="line">(</span><br><span class="line">ISBN	<span class="built_in">char</span>(<span class="number">18</span>)	<span class="keyword">NOT</span> <span class="literal">NULL</span>	<span class="keyword">CONSTRAINT</span> B_UK <span class="keyword">UNIQUE</span>,</span><br><span class="line">书名		<span class="built_in">char</span>(<span class="number">40</span>)	<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">作者		<span class="built_in">char</span>(<span class="number">16</span>)	<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">出版社	<span class="built_in">char</span>(<span class="number">30</span>)	<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">价格		<span class="built_in">float</span>		<span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">CHECK</span>(价格&lt;=<span class="number">2500</span>),</span><br><span class="line">复本量	<span class="built_in">int</span>			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">库存量	<span class="built_in">int</span>			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">)</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> jy1</span><br><span class="line">(</span><br><span class="line">借书证号 <span class="built_in">char</span>(<span class="number">8</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span></span><br><span class="line"><span class="keyword">REFERENCES</span> xs1(借书证号) </span><br><span class="line"><span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">CASCADE</span></span><br><span class="line"><span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CASCADE</span> ,</span><br><span class="line">ISBN <span class="built_in">char</span>(<span class="number">18</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> </span><br><span class="line"><span class="keyword">REFERENCES</span> book1(ISBN)</span><br><span class="line"><span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">NO</span> <span class="keyword">ACTION</span> </span><br><span class="line"><span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">NO</span> <span class="keyword">ACTION</span>,</span><br><span class="line">索书号 <span class="built_in">char</span>(<span class="number">10</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">借书时间 <span class="built_in">date</span> <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="6-16创建point表，要求表中所有的索书号、借书证号和借书时间组合都必须出现在jyls1表中。"><a href="#6-16创建point表，要求表中所有的索书号、借书证号和借书时间组合都必须出现在jyls1表中。" class="headerlink" title="6.16创建point表，要求表中所有的索书号、借书证号和借书时间组合都必须出现在jyls1表中。"></a>6.16创建point表，要求表中所有的索书号、借书证号和借书时间组合都必须出现在jyls1表中。</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> point</span><br><span class="line">(</span><br><span class="line">索书号		<span class="built_in">char</span>(<span class="number">10</span>)		<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">借书证号		<span class="built_in">char</span>(<span class="number">8</span>)			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">ISBN		<span class="built_in">char</span>(<span class="number">18</span>)		<span class="keyword">NOT</span> <span class="literal">NULL</span>,	</span><br><span class="line">借书时间		<span class="built_in">date</span>			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">还书时间		<span class="built_in">date</span>			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="keyword">CONSTRAINT</span> FK_point <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span>(索书号,借书证号,借书时间)      </span><br><span class="line"><span class="keyword">REFERENCES</span> jyls1 (索书号,借书证号,借书时间)      </span><br><span class="line"><span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">NO</span> <span class="keyword">ACTION</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h1 id="扩展训练"><a href="#扩展训练" class="headerlink" title="扩展训练"></a>扩展训练</h1><h2 id="1-创建索引"><a href="#1-创建索引" class="headerlink" title="1.创建索引"></a>1.创建索引</h2><h3 id="1-对yggl数据库的Employees表中的DepartmentID列建立索引"><a href="#1-对yggl数据库的Employees表中的DepartmentID列建立索引" class="headerlink" title="1.对yggl数据库的Employees表中的DepartmentID列建立索引"></a>1.对yggl数据库的Employees表中的DepartmentID列建立索引</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> yggl</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">IF</span> <span class="keyword">EXISTS</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span>　<span class="keyword">name</span> </span><br><span class="line"><span class="keyword">FROM</span> sysindexes </span><br><span class="line"><span class="keyword">WHERE</span> </span><br><span class="line"><span class="keyword">name</span>= <span class="string">'DID_ind'</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">DROP</span></span><br><span class="line"><span class="keyword">INDEX</span> Employee.DID_ind</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> DID_ind</span><br><span class="line"><span class="keyword">ON</span> Employee(DepartmentID)</span><br></pre></td></tr></table></figure>
+<h3 id="2-在Employees表中的Name列和Address列上建立复合索引"><a href="#2-在Employees表中的Name列和Address列上建立复合索引" class="headerlink" title="2.在Employees表中的Name列和Address列上建立复合索引"></a>2.在Employees表中的Name列和Address列上建立复合索引</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> Ad_ind</span><br><span class="line"><span class="keyword">ON</span> Employee(<span class="keyword">Name</span>,Address)</span><br></pre></td></tr></table></figure>
+<h3 id="3-对Departments表上的DepartmentName列建立唯一非聚集索引"><a href="#3-对Departments表上的DepartmentName列建立唯一非聚集索引" class="headerlink" title="3.对Departments表上的DepartmentName列建立唯一非聚集索引"></a>3.对Departments表上的DepartmentName列建立唯一非聚集索引</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span>  <span class="keyword">INDEX</span> DN </span><br><span class="line"><span class="keyword">ON</span> Departments(DepartmentName)</span><br></pre></td></tr></table></figure>
+<h3 id="4-使用DROP-INDEX语句删除表Employees上的索引depart-ind"><a href="#4-使用DROP-INDEX语句删除表Employees上的索引depart-ind" class="headerlink" title="4.使用DROP INDEX语句删除表Employees上的索引depart_ind"></a>4.使用DROP INDEX语句删除表Employees上的索引depart_ind</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">IF EXISTS</span><br><span class="line">(</span><br><span class="line"><span class="keyword">SELECT</span>　<span class="keyword">name</span> </span><br><span class="line"><span class="keyword">FROM</span> sysindexes </span><br><span class="line"><span class="keyword">WHERE</span> </span><br><span class="line"><span class="keyword">name</span>=<span class="string">'DID_ind'</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">DROP</span></span><br><span class="line"><span class="keyword">INDEX</span> Employee.DID_ind</span><br></pre></td></tr></table></figure>
+<h2 id="2-数据库完整性"><a href="#2-数据库完整性" class="headerlink" title="2.数据库完整性"></a>2.数据库完整性</h2><h3 id="1-创建一个表Employee5，只含EmPloyeeID、Name、Sex和Education列。将Name设为主键，作为列Name的约束。对EmployeeID列进行UNIQUE约束，并作为表的约束。"><a href="#1-创建一个表Employee5，只含EmPloyeeID、Name、Sex和Education列。将Name设为主键，作为列Name的约束。对EmployeeID列进行UNIQUE约束，并作为表的约束。" class="headerlink" title="1.创建一个表Employee5，只含EmPloyeeID、Name、Sex和Education列。将Name设为主键，作为列Name的约束。对EmployeeID列进行UNIQUE约束，并作为表的约束。"></a>1.创建一个表Employee5，只含EmPloyeeID、Name、Sex和Education列。将Name设为主键，作为列Name的约束。对EmployeeID列进行UNIQUE约束，并作为表的约束。</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Employee5</span><br><span class="line">(</span><br><span class="line">EmployeesID <span class="built_in">char</span>(<span class="number">6</span>)			<span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line"><span class="keyword">Name</span>		<span class="built_in">char</span>(<span class="number">10</span>)		<span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">CONSTRAINT</span> EM_pk　PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">Sex			<span class="built_in">bit</span>				<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">Education	<span class="built_in">char</span>(<span class="number">4</span>)			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="keyword">CONSTRAINT</span> UK_id <span class="keyword">UNIQUE</span> (EmployeesID)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="2-删除上面创建的UNIQUE约束。"><a href="#2-删除上面创建的UNIQUE约束。" class="headerlink" title="2.删除上面创建的UNIQUE约束。"></a>2.删除上面创建的UNIQUE约束。</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Employee5</span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">CONSTRAINT</span> UK_id</span><br><span class="line"><span class="keyword">GO</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-创建一个表Employee6-只考虑“学号”和“出生日期”两列，出生日期必须晚于1980年1月1日"><a href="#3-创建一个表Employee6-只考虑“学号”和“出生日期”两列，出生日期必须晚于1980年1月1日" class="headerlink" title="3.创建一个表Employee6,只考虑“学号”和“出生日期”两列，出生日期必须晚于1980年1月1日"></a>3.创建一个表Employee6,只考虑“学号”和“出生日期”两列，出生日期必须晚于1980年1月1日</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Employee6</span><br><span class="line">(</span><br><span class="line">EmployeeID <span class="built_in">char</span>(<span class="number">6</span>)   <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">Birthday   <span class="built_in">date</span>		 <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="keyword">CHECK</span>(birthday&gt;<span class="string">'1980-1-1'</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="4-创建新表student-只考虑“号码”和“出生日期”两列，性别只能包含男或女。"><a href="#4-创建新表student-只考虑“号码”和“出生日期”两列，性别只能包含男或女。" class="headerlink" title="4.创建新表student,只考虑“号码”和“出生日期”两列，性别只能包含男或女。"></a>4.创建新表student,只考虑“号码”和“出生日期”两列，性别只能包含男或女。</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> student</span><br><span class="line">(</span><br><span class="line">号码 <span class="built_in">char</span>(<span class="number">6</span>)   <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">性别 <span class="built_in">char</span>(<span class="number">2</span>)   <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="keyword">CHECK</span>(性别　<span class="keyword">in</span>(<span class="string">'男'</span>,<span class="string">'女'</span>))</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="5-创建新表Salary2-结构与Salary相同，但Salary2表不允许OutCome列大于InCome列"><a href="#5-创建新表Salary2-结构与Salary相同，但Salary2表不允许OutCome列大于InCome列" class="headerlink" title="5.创建新表Salary2,结构与Salary相同，但Salary2表不允许OutCome列大于InCome列"></a>5.创建新表Salary2,结构与Salary相同，但Salary2表不允许OutCome列大于InCome列</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Salary2</span><br><span class="line">(</span><br><span class="line">EmployeeID	<span class="built_in">char</span>(<span class="number">6</span>)			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">InCome		<span class="built_in">float</span>			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">OutCome		<span class="built_in">float</span>			<span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="keyword">CHECK</span>		(InCome&gt;OutCome)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="6-对yggl数据库的Employees表进行修改，为其增加DepartmentID字段的CHECK约束-规定1-lt-Department-lt-5。完成后，测试CHECK约束的有效性。"><a href="#6-对yggl数据库的Employees表进行修改，为其增加DepartmentID字段的CHECK约束-规定1-lt-Department-lt-5。完成后，测试CHECK约束的有效性。" class="headerlink" title="6.对yggl数据库的Employees表进行修改，为其增加DepartmentID字段的CHECK约束,规定1&lt;Department&lt;5。完成后，测试CHECK约束的有效性。"></a>6.对yggl数据库的Employees表进行修改，为其增加DepartmentID字段的CHECK约束,规定1&lt;Department&lt;5。完成后，测试CHECK约束的有效性。</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">USE</span> yggl</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">IF</span> <span class="keyword">EXISTS</span></span><br><span class="line">(<span class="keyword">SELECT</span> <span class="keyword">name</span></span><br><span class="line"><span class="keyword">FROM</span> sysobjects </span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">name</span>=<span class="string">'DepartmentID'</span></span><br><span class="line"><span class="keyword">and</span> <span class="keyword">type</span>=<span class="string">'c'</span>)</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Employee</span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">CONSTRAINT</span> DepartmentID</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Employee</span><br><span class="line"><span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> DepartmentID <span class="keyword">CHECK</span> (DepartmentID&gt;<span class="number">1</span> <span class="keyword">AND</span> DepartmentID&lt;<span class="number">5</span>)</span><br><span class="line"><span class="comment">--测试CHECK约束有效性</span></span><br><span class="line"><span class="keyword">USE</span> yggl</span><br><span class="line"><span class="keyword">GO</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Employee</span><br><span class="line"><span class="keyword">VALUES</span></span><br><span class="line">(<span class="string">'20177878'</span>,<span class="string">'蔡徐坤'</span>,<span class="string">'本科'</span>,<span class="string">'1999-11-22'</span>,<span class="string">'1'</span>,<span class="string">'5'</span>,<span class="string">'中关村3501'</span>,<span class="string">'17382827675'</span>,<span class="string">'6'</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/21/实验三：T-SQL编程-2/" rel="next" title="实验三：T-SQL编程(2)">
+                <i class="fa fa-chevron-left"></i> 实验三：T-SQL编程(2)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/06/实验伍：存储过程和触发器/" rel="prev" title="实验五:存储过程和触发器">
+                实验五:存储过程和触发器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="qianyongru">
+            
+              <p class="site-author-name" itemprop="name">qianyongru</p>
+              <p class="site-description motion-element" itemprop="description">Where great ideas go on to do great things</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础训练"><span class="nav-number">1.</span> <span class="nav-text">基础训练</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参照例6-1、例6-2、例6-3联系创建索引的方法"><span class="nav-number">1.1.</span> <span class="nav-text">参照例6.1、例6.2、例6.3联系创建索引的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1对于jy表，按借书证号-ISBN创建索引"><span class="nav-number">1.1.1.</span> <span class="nav-text">6.1对于jy表，按借书证号+ISBN创建索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2根据book表的ISBN列创建唯一聚集索引，因为指定了CLUSTERED字句，所以该索引将对磁盘上的数据进行物理排序。"><span class="nav-number">1.1.2.</span> <span class="nav-text">6.2根据book表的ISBN列创建唯一聚集索引，因为指定了CLUSTERED字句，所以该索引将对磁盘上的数据进行物理排序。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3根据xs表中借书证号字段创建唯一聚合索引。如果输入了重复键值，将忽略该INSERT或UPDATE语句"><span class="nav-number">1.1.3.</span> <span class="nav-text">6 .3根据xs表中借书证号字段创建唯一聚合索引。如果输入了重复键值，将忽略该INSERT或UPDATE语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参照例6-7、例6-8、例6-9、例6-11、例6-12、例6-15、例6-16练习操作数据完整性的方法"><span class="nav-number">1.2.</span> <span class="nav-text">参照例6.7、例6.8、例6.9、例6.11、例6.12、例6.15、例6.16练习操作数据完整性的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-7-对于数据库xsbook中的表book-要求图书的最高限价为250元，请重新定义book表"><span class="nav-number">1.2.1.</span> <span class="nav-text">6.7 对于数据库xsbook中的表book,要求图书的最高限价为250元，请重新定义book表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-8创建表student-有学号，最好成绩和平均成绩三列，要求最好成绩必须大于平均成绩"><span class="nav-number">1.2.2.</span> <span class="nav-text">6.8创建表student,有学号，最好成绩和平均成绩三列，要求最好成绩必须大于平均成绩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-9通过修改xsbook数据库中的xs表，增加借书证号字段的CHECK约束-要求借书证号必须全由6个数字字符构成，并且不等于’000000’。"><span class="nav-number">1.2.3.</span> <span class="nav-text">6.9通过修改xsbook数据库中的xs表，增加借书证号字段的CHECK约束:要求借书证号必须全由6个数字字符构成，并且不等于’000000’。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-11创建xs4表并对借书证号字段创建PRIMARY-KEY约束，对姓名字段定义UNIQUE约束"><span class="nav-number">1.2.4.</span> <span class="nav-text">6.11创建xs4表并对借书证号字段创建PRIMARY KEY约束，对姓名字段定义UNIQUE约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-12创建借阅历史表jylsl-由借书证号、索书号、借书时间作为联合主键"><span class="nav-number">1.2.5.</span> <span class="nav-text">6.12创建借阅历史表jylsl,由借书证号、索书号、借书时间作为联合主键</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-15在xsbook数据库中创建主表xs1和book1-借书证号为xs1表的主键，ISBN为book1的主键，然后定义从表jy1-jy1-借书证号为外键，与xs1的主键对应，当对表进行更新和删除操作时，对从表采用级联操作，jy1-ISBN为外键，与book1的主键对应，当对主表进行更新和删除时，对从表采用NO-ACTION方式。"><span class="nav-number">1.2.6.</span> <span class="nav-text">6.15在xsbook数据库中创建主表xs1和book1,借书证号为xs1表的主键，ISBN为book1的主键，然后定义从表jy1,jy1.借书证号为外键，与xs1的主键对应，当对表进行更新和删除操作时，对从表采用级联操作，jy1.ISBN为外键，与book1的主键对应，当对主表进行更新和删除时，对从表采用NO ACTION方式。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-16创建point表，要求表中所有的索书号、借书证号和借书时间组合都必须出现在jyls1表中。"><span class="nav-number">1.2.7.</span> <span class="nav-text">6.16创建point表，要求表中所有的索书号、借书证号和借书时间组合都必须出现在jyls1表中。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#扩展训练"><span class="nav-number">2.</span> <span class="nav-text">扩展训练</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-创建索引"><span class="nav-number">2.1.</span> <span class="nav-text">1.创建索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-对yggl数据库的Employees表中的DepartmentID列建立索引"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.对yggl数据库的Employees表中的DepartmentID列建立索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-在Employees表中的Name列和Address列上建立复合索引"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.在Employees表中的Name列和Address列上建立复合索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-对Departments表上的DepartmentName列建立唯一非聚集索引"><span class="nav-number">2.1.3.</span> <span class="nav-text">3.对Departments表上的DepartmentName列建立唯一非聚集索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-使用DROP-INDEX语句删除表Employees上的索引depart-ind"><span class="nav-number">2.1.4.</span> <span class="nav-text">4.使用DROP INDEX语句删除表Employees上的索引depart_ind</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-数据库完整性"><span class="nav-number">2.2.</span> <span class="nav-text">2.数据库完整性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-创建一个表Employee5，只含EmPloyeeID、Name、Sex和Education列。将Name设为主键，作为列Name的约束。对EmployeeID列进行UNIQUE约束，并作为表的约束。"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.创建一个表Employee5，只含EmPloyeeID、Name、Sex和Education列。将Name设为主键，作为列Name的约束。对EmployeeID列进行UNIQUE约束，并作为表的约束。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-删除上面创建的UNIQUE约束。"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.删除上面创建的UNIQUE约束。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-创建一个表Employee6-只考虑“学号”和“出生日期”两列，出生日期必须晚于1980年1月1日"><span class="nav-number">2.2.3.</span> <span class="nav-text">3.创建一个表Employee6,只考虑“学号”和“出生日期”两列，出生日期必须晚于1980年1月1日</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-创建新表student-只考虑“号码”和“出生日期”两列，性别只能包含男或女。"><span class="nav-number">2.2.4.</span> <span class="nav-text">4.创建新表student,只考虑“号码”和“出生日期”两列，性别只能包含男或女。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-创建新表Salary2-结构与Salary相同，但Salary2表不允许OutCome列大于InCome列"><span class="nav-number">2.2.5.</span> <span class="nav-text">5.创建新表Salary2,结构与Salary相同，但Salary2表不允许OutCome列大于InCome列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-对yggl数据库的Employees表进行修改，为其增加DepartmentID字段的CHECK约束-规定1-lt-Department-lt-5。完成后，测试CHECK约束的有效性。"><span class="nav-number">2.2.6.</span> <span class="nav-text">6.对yggl数据库的Employees表进行修改，为其增加DepartmentID字段的CHECK约束,规定1&lt;Department&lt;5。完成后，测试CHECK约束的有效性。</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">qianyongru</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
